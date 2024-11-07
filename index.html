@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lazy Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Контейнер для фонов -->
+    <div class="background-container">
+        <div class="background-layer" id="background-layer-1"></div>
+        <div class="background-layer" id="background-layer-2"></div>
+    </div>
+
+    <div class="coin"></div>
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li onclick="window.location.href='description.html'">About Lazycoin</li>
+                <li onclick="window.location.href='tokenomics.html'">Tokenomics</li>
+                <li onclick="window.location.href='Buy.html'">Buy</li>
+                <li onclick="window.open('https://twitter.com', '_blank')">Twitter</li>
+                <li onclick="window.open('https://telegram.org', '_blank')">Telegram</li>
+                <li onclick="window.location.href='contacts.html'">Contacts</li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <h1 class="title">Lazycoin</h1>
+            <p class="description">Time to relax and earn with LazyCoin — the coin for true connoisseurs of calm!</p>
+        </header>
+    </div>
+
+    <script>
+        // Массив фонов
+        let backgrounds = [
+            './img/background1.jpg',
+            './img/background2.jpg',
+            './img/background3.jpg',
+            './img/background4.jpg',
+            './img/background5.jpg',
+            './img/background6.jpg',
+            './img/background7.jpg',
+            './img/background8.jpg',
+            './img/background9.jpg'
+        ];
+
+        let currentBackground = 0;
+        let totalBackgrounds = backgrounds.length;
+
+        // Функция для смены фона с плавным переходом
+        function changeBackground() {
+            currentBackground = (currentBackground + 1) % totalBackgrounds;
+
+            // Скрываем текущий фон, показываем следующий
+            let currentLayer = currentBackground % 2 === 0 ? '1' : '2';
+            let nextLayer = currentBackground % 2 === 0 ? '2' : '1';
+
+            let currentLayerElement = document.getElementById(`background-layer-${currentLayer}`);
+            let nextLayerElement = document.getElementById(`background-layer-${nextLayer}`);
+
+            // Плавное скрытие текущего фона
+            currentLayerElement.style.opacity = 0;
+            
+            // Устанавливаем новый фон и плавно его показываем
+            nextLayerElement.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+            nextLayerElement.style.opacity = 1;
+        }
+
+        // Смена фона каждые 5 секунд
+        setInterval(changeBackground, 5000);
+
+        // Устанавливаем начальный фон
+        window.onload = function() {
+            // Начальный фон с белым (или любым другим) цветом
+            document.getElementById('background-layer-1').style.backgroundColor = "white"; // Начальный белый фон
+            document.getElementById('background-layer-1').style.opacity = 0;  // Начальная непрозрачность равна 0, чтобы постепенно исчезал
+            document.getElementById('background-layer-2').style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+            document.getElementById('background-layer-2').style.opacity = 1;  // Второй слой сразу видимый
+
+            // Плавный переход из белого фона в основной
+            setTimeout(() => {
+                document.getElementById('background-layer-1').style.transition = 'opacity 2s ease-in-out';  // Плавность для первого фона
+                document.getElementById('background-layer-1').style.opacity = 1; // Переход от белого к изображению
+            }, 100);  // Немного задержки перед началом плавности
+        };
+    </script>
+</body>
+</html>
